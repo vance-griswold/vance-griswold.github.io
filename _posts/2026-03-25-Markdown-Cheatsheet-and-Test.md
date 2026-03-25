@@ -40,7 +40,7 @@ Table:
 | Header | Title |
 | Paragraph | Text | 
 
-* use | and just make a table
+* use "|" and just make a table
 
 ```
 Fenced code block
