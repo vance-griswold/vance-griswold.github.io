@@ -25,9 +25,9 @@ Using this as a test post and also a place to refer back to when writing these p
 
 
 ![](images/test.png) 
-^ Image "![alt text](image.jpg)"
+^ Image "! [alt text](image.jpg)"
 
 * If you want to add additional customization, then you would do something like:
-{: style="width:200px; float:right;"}
+: style="width:200px; float:right;" with {}
 
 
