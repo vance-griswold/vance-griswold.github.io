@@ -33,6 +33,7 @@ Using this as a test post and also a place to refer back to when writing these p
 : style="width:200px; float:right;" with {}
 
 '''
+
 Table:
 
 | Syntax | Description |
