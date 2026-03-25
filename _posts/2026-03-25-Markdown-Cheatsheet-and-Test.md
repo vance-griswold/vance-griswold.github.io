@@ -23,9 +23,6 @@ Using this as a test post and also a place to refer back to when writing these p
 
 [Google](www.google.com) <--- Link "[title](https://www.example.com)"
 
-* if you want to use a relative URL to refer to another blog post, then you should use this:
-"{% post_url 2021-10-15-Udacity-Data-Scientist-Nanodegree-Project-1 %}"
-
 * Ex: "[only update rows that changed]({% post_url 2020-12-30-only-update-rows-that-changed %})"
 
 ![](images/test.png) 
