@@ -46,6 +46,15 @@ cursor.executemany('''
     ("Priya Nath",     "555-619-2207", "priya.nath@inbox.com",   None),
     ("Carlos Mendez",  "555-713-8843", None,                     "Old roommate"),
 ```
-
+Then use a horrible written python script to verify the data
+#### verify_db.py
+``` python
+cursor.execute('''
+               select *
+               from messages
+               ''')
+row = cursor.fetchall()
+print(row)
+```
 
 ![](/images/test.png)
