@@ -61,4 +61,23 @@ Now we have a SQLite database with four linked tables (Calls, Messages, Contacts
 
 ---
 
+### Delete some records fom the main db (not just wal)
+
+Using the cursor we can delete id 1 and 3 from the messages table and id 2 from the contacts table.
+```
+cursor.execute("DELETE FROM messages WHERE id IN (1, 3)")
+cursor.execute("DELETE FROM contacts WHERE id = 2")
+```
+
+We also need to force the Write-Ahead Log so that these deletions go straight to the main .db file
+```
+cursor.execute("PRAGMA wal_checkpoint(TRUNCATE)") 
+```
+Without this line, the deletions might only live in the .db-wal file and the main .db file might not change.
+
+### Open our .db file in a hex editor
+Im using HxD because its free. 
+The deletion script we used deleted he (1,3) from the messages table which was the message "Not much, you free later?" Now after the deletion we can see in the hex editor that the message has not really been deleted yet. Just using ctrl + f we can look for the string "Not much, you free later?" and find it still in the .db file.
+![](/images/hex_edit_mess.png)
+
 ![](/images/test.png)
