@@ -57,4 +57,8 @@ row = cursor.fetchall()
 print(row)
 ```
 
+Now we have a SQLite database with four linked tables (Calls, Messages, Contacts, and Locations) to provide realistic sample data for this project. Next i'm going to delete some of the data and use HxD to try and see what actually happens to the db file before recovery. 
+
+---
+
 ![](/images/test.png)
