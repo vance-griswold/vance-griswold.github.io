@@ -78,6 +78,59 @@ Without this line, the deletions might only live in the .db-wal file and the mai
 ### Open our .db file in a hex editor
 Im using HxD because its free. 
 The deletion script we used deleted he (1,3) from the messages table which was the message "Not much, you free later?" Now after the deletion we can see in the hex editor that the message has not really been deleted yet. Just using ctrl + f we can look for the string "Not much, you free later?" and find it still in the .db file.
+
 ![](/images/hex_edit_mess.png)
+
+Now this is not totally relivent because if you had a crazy large database and the person deleted the message you would have no idea what to search for. However we just saw and proved that deletion from the .db file does not mean it is inaccsessable. This will allows us to write a script that reads throuhg the raw bytes in binary mode and looks for patterns, deleted or not. 
+
+---
+
+### recover.py
+Ok so we need to write a script that reads lab.db as raw bytes while completely ignoring the sqlite3 module and pulling out deleted record data from free space. I am still in the process of learning python, so I had a lot of help from claude with this script.
+``` python
+def extract_strings(data, min_length=4):
+    """Pull readable ASCII strings out of raw bytes."""
+    strings = []
+    current = []
+
+    for byte in data:
+        if 32 <= byte <= 126:  # printable ASCII range
+            current.append(chr(byte))
+        else:
+            if len(current) >= min_length:
+                strings.append("".join(current))
+            current = []
+
+    if len(current) >= min_length:
+        strings.append("".join(current))
+
+    return strings
+
+
+PAGE_SIZE = 4096
+
+with open("lab.db", "rb") as f:
+    raw = f.read()
+
+total_pages = len(raw) // PAGE_SIZE
+print(f"Database size: {len(raw)} bytes | Pages: {total_pages}\n")
+
+for page_num in range(total_pages):
+    start = page_num * PAGE_SIZE
+    end = start + PAGE_SIZE
+    page_data = raw[start:end]
+
+    strings = extract_strings(page_data)
+
+    if strings:
+        print(f"--- Page {page_num + 1} (offset {hex(start)}) ---")
+        for s in strings:
+            print(f"  {s}")
+        print()
+```
+
+This script opens the db file in binary mode with ``` open("lab.db", "rb") ```, this lets Python reads the raw bytes of the file exactly as they exist on disk. 
+
+The main part of the script is the extract strings function. This function loops through every byte in a given chunk of data and checks whether each byte falls between ASCII values 32 and 126, which is the ASCII printable charecters. When it finds enough of these charecters to be meaningful (4 at least) it saves it as a string.
 
 ![](/images/test.png)
