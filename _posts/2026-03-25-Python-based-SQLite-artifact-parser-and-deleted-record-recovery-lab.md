@@ -131,6 +131,12 @@ for page_num in range(total_pages):
 
 This script opens the db file in binary mode with ``` open("lab.db", "rb") ```, this lets Python reads the raw bytes of the file exactly as they exist on disk. 
 
-The main part of the script is the extract strings function. This function loops through every byte in a given chunk of data and checks whether each byte falls between ASCII values 32 and 126, which is the ASCII printable charecters. When it finds enough of these charecters to be meaningful (4 at least) it saves it as a string.
+The main part of the script is the extract strings function. This function loops through every byte in a given chunk of data and checks whether each byte falls between ASCII values 32 and 126, which is the ASCII printable charecters. When it finds enough of these charecters to be meaningful (4 at least) it saves it as a string.(String Carver)
+
+The main body of the script then divides the database file into 4096-byte chunks called pages, which is SQLite's default page size, and runs extract_strings() on each one. It prints every string it finds along with the page number and byte offset, so you know exactly where in the file each piece of data came from.
+
+---
+
+Ended up getting some valuable info from thei project but got a lot better resource from forensics labs coming.
 
 ![](/images/test.png)
